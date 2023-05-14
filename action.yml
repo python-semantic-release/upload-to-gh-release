@@ -1,0 +1,28 @@
+---
+name: "Python Semantic Release - Publish"
+
+description: "Publish Python Wheels and other Artefacts to GitHub Releases"
+
+inputs:
+  root_options:
+    description: |
+      Additional options for the root `semantic-release` command.
+      Example: -vv --noop
+    required: false
+    default: "-v"
+
+  directory:
+    description: |
+      Sub-directory to cd into before running semantic-release publish
+    default: "."
+    required: false
+
+  github_token:
+    description: |
+      GitHub token used to upload artefacts. Requires permission to create and
+      edit releases.
+    required: true
+
+runs:
+  using: "docker"
+  image: "Dockerfile"
