@@ -14,4 +14,4 @@ cd "${INPUT_DIRECTORY}"
 git config --system --add safe.directory "*"
 
 # Run Semantic Release
-semantic-release ${ROOT_OPTIONS} publish --upload-to-vcs-release
+semantic-release ${ROOT_OPTIONS} publish --tag "${INPUT_TAG}"
