@@ -1,7 +1,7 @@
 ---
 name: "Python Semantic Release - Publish"
 
-description: "Publish Python Wheels and other Artefacts to GitHub Releases"
+description: "Publish Python Wheels and Other Artefacts to GitHub Releases"
 
 inputs:
   root_options:
@@ -22,6 +22,14 @@ inputs:
       GitHub token used to upload artefacts. Requires permission to create and
       edit releases.
     required: true
+
+  tag:
+    description: |
+      The tag corresponding to the GitHub Release that the artefacts should
+      be published to. Defaults to 'latest', in which case the latest tag
+      will be identified by Python Semantic Release and used to publish to.
+    required: false
+    default: "latest"
 
 runs:
   using: "docker"

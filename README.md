@@ -35,6 +35,7 @@ jobs:
           fetch-depth: 0
 
       - name: Python Semantic Release
+        id: release
         uses: python-semantic-release/python-semantic-release@v8.0.x
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -42,11 +43,14 @@ jobs:
 
       - name: Publish package to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
+        if: ${{ steps.release.outputs.released }} == 'true'
 
       - name: Publish package to GitHub Release
         uses: python-semantic-release/upload-to-gh-release@main
+        if: ${{ steps.release.outputs.released }} == 'true'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ steps.release.outputs.tag }}
 ```
 
 ## Options
