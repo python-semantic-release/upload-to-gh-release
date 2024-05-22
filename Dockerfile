@@ -1,25 +1,26 @@
-ARG PYTHON_VERSION=3.10
+FROM python:3.10-slim-bookworm
+ARG WORK_DIR="/opt/semantic-release"
 
-FROM python:${PYTHON_VERSION}
+WORKDIR ${WORK_DIR}
 
-RUN set -ex; \
-    apt-get update; \
-    apt-get install -y --no-install-recommends \
-    git-lfs
+COPY . ./
 
-#install backported stable vesion of git, which supports ssh signing
-RUN echo "deb http://deb.debian.org/debian bullseye-backports main" >> /etc/apt/sources.list; \
-    apt-get update;\
-    apt-get install -y git/bullseye-backports \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*; \
-    mkdir /semantic-release
+RUN \
+    # Install required os packages
+    apt update && apt install -y --no-install-recommends \
+        git git-lfs \
+    # Fix shell profile to load PATH with user python bin
+    && mv /etc/skel/.profile /root/.profile \
+    # Update local pip and built tools
+    && pip install --upgrade --user --no-cache-dir pip setuptools wheel \
+    # Install semantic-release (/root/.local/bin)
+    && pip install --pre --user --no-cache-dir -r requirements.txt \
+    # Validate binary availability
+    && bash -lc 'semantic-release --help' \
+    # put action script on PATH as entrypoint
+    && ln -s "${WORK_DIR}/action.sh" /root/.local/bin/action-entrypoint \
+    # Clean up
+    && apt clean && rm -rf /var/lib/apt/lists/* \
+    && find /tmp -mindepth 1 -delete
 
-WORKDIR /semantic-release
-
-COPY action.sh /semantic-release/action.sh
-
-RUN pip install --pre --no-cache-dir "python-semantic-release<9"; \
-    semantic-release --help
-
-ENTRYPOINT ["/semantic-release/action.sh"]
+ENTRYPOINT ["bash", "-l", "action-entrypoint"]

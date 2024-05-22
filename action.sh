@@ -2,10 +2,6 @@
 
 set -e
 
-# Copy inputs into correctly-named environment variables
-export GH_TOKEN="${INPUT_GITHUB_TOKEN}"
-export ROOT_OPTIONS="${INPUT_ROOT_OPTIONS:="-v"}"
-
 # Change to configured directory
 cd "${INPUT_DIRECTORY}"
 
@@ -13,5 +9,8 @@ cd "${INPUT_DIRECTORY}"
 # and https://github.com/actions/runner-images/issues/6775#issuecomment-1410270956
 git config --system --add safe.directory "*"
 
+# Make Token available as a correctly-named environment variables
+export GH_TOKEN="${INPUT_GITHUB_TOKEN}"
+
 # Run Semantic Release
-semantic-release ${ROOT_OPTIONS} publish --tag "${INPUT_TAG}"
+semantic-release ${INPUT_ROOT_OPTIONS} publish --tag "${INPUT_TAG}"
