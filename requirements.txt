@@ -1,1 +1,1 @@
-python-semantic-release == 9.7.1
+python-semantic-release == 9.7.2
