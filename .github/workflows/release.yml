@@ -1,0 +1,63 @@
+name: Release (Manual)
+
+on:
+  # Enable execution directly from Actions page
+  workflow_dispatch:
+    inputs:
+      bump-version:
+        description: 'Bump Level?'
+        type: choice
+        options:
+          - 'major'
+          - 'minor'
+          - 'patch'
+          - 'prerelease'
+        required: true
+      as-prerelease:
+        description: 'As pre-release?'
+        type: boolean
+        required: true
+        default: false
+
+# default token permissions = none
+permissions: {}
+
+jobs:
+  build:
+    name: Verify Docker Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          ref: ${{ github.ref_name }}
+
+      - name: Build Docker Image
+        run: |
+          docker build -t psr-upload-to-release:latest .
+
+  release:
+    name: Semantic Release
+    runs-on: ubuntu-latest
+    concurrency: push
+    needs: [build]
+
+    permissions:
+      id-token: write
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.ref_name }}
+
+      - name: Python Semantic Release
+        uses: python-semantic-release/python-semantic-release@v9.7.3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          root_options: "-vv -c releaserc.toml"
+          force: ${{ github.event.inputs.bump-version }}
+          prerelease: ${{ github.event.inputs.as-prerelease }}
+          commit: false
+          changelog: false
