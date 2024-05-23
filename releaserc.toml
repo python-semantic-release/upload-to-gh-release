@@ -1,0 +1,25 @@
+[semantic_release]
+commit_parser = "angular"
+
+[semantic_release.changelog]
+exclude_commit_patterns = [
+  '''chore(?:\([^)]*?\))?: .+''',
+  '''ci(?:\([^)]*?\))?: .+''',
+  '''refactor(?:\([^)]*?\))?: .+''',
+  '''style(?:\([^)]*?\))?: .+''',
+  '''test(?:\([^)]*?\))?: .+''',
+  '''build\((?!deps\): .+)''',
+  '''Merged? .*''',
+  '''Initial Commit.*''',
+]
+
+[semantic_release.branches.main]
+match = "(main|master)"
+prerelease = false
+
+[semantic_release.remote]
+type = "github"
+token = { env = "GH_TOKEN" }
+
+[semantic_release.publish]
+upload_to_vcs_release = false
