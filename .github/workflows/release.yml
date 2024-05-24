@@ -59,5 +59,4 @@ jobs:
           root_options: "-vv -c releaserc.toml"
           force: ${{ github.event.inputs.bump-version }}
           prerelease: ${{ github.event.inputs.as-prerelease }}
-          commit: false
           changelog: false
