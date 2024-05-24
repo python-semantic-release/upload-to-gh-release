@@ -1,4 +1,6 @@
 [semantic_release]
+assets = ["README.md", "LICENSE"]
+build_command = """python3 ./scripts/bump_version.py"""
 commit_parser = "angular"
 
 [semantic_release.changelog]
