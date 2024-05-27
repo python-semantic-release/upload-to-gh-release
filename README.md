@@ -35,7 +35,7 @@ jobs:
 
       - name: Python Semantic Release
         id: release
-        uses: python-semantic-release/python-semantic-release@v9.3.1
+        uses: python-semantic-release/python-semantic-release@v9.4.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           # <other options here>
@@ -45,7 +45,7 @@ jobs:
         if: ${{ steps.release.outputs.released }} == 'true'
 
       - name: Publish package to GitHub Release
-        uses: python-semantic-release/upload-to-gh-release@v9.3.1
+        uses: python-semantic-release/upload-to-gh-release@v9.4.0
         if: ${{ steps.release.outputs.released }} == 'true'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
