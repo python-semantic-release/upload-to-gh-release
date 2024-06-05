@@ -42,11 +42,11 @@ jobs:
 
       - name: Publish package to PyPI
         uses: pypa/gh-action-pypi-publish@v1
-        if: ${{ steps.release.outputs.released }} == 'true'
+        if: steps.release.outputs.released == 'true'
 
       - name: Publish package to GitHub Release
         uses: python-semantic-release/upload-to-gh-release@v9.8.0
-        if: ${{ steps.release.outputs.released }} == 'true'
+        if: steps.release.outputs.released == 'true'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ steps.release.outputs.tag }}
