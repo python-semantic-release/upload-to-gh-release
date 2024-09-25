@@ -1,7 +1,7 @@
 ---
 name: "Python Semantic Release - Publish"
 
-description: "Publish Python Wheels and Other Artefacts to GitHub Releases"
+description: "DEPRECATED: Publish Python Wheels and Other Artefacts to GitHub Releases"
 
 inputs:
   root_options:

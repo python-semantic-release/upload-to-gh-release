@@ -2,6 +2,9 @@
 
 set -e
 
+deprecation_message="This action has been DEPRECATED. Please use the 'python-semantic-release/publish-action' instead."
+printf >&2 '%s\n' "::warning::$deprecation_message"
+
 explicit_run_cmd() {
   local cmd="$*"
   printf '%s\n' "$> $cmd"

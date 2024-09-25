@@ -1,5 +1,9 @@
 # Python Semantic Release - Upload to GitHub Release Action
 
+> **DEPRECATION NOTICE:** This action has been deprecated as it has been renamed to
+> `python-semantic-release/publish-action`. Please update your workflows to use the new
+> action.
+
 This GitHub Action runs `semantic-release publish` using
 [`python-semantic-release`](https://github.com/python-semantic-release/python-semantic-release).
 Full documentation is available in the
